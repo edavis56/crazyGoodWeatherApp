@@ -66,7 +66,7 @@ Run the HTML file in the internet browser:
 
 ## Deployed application
 
-https://the-better-book-barter.herokuapp.com/
+https://edavis56.github.io/crazyGoodWeatherApp/
 
 ## GitHub Repository
 
