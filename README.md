@@ -70,7 +70,7 @@ https://the-better-book-barter.herokuapp.com/
 
 ## GitHub Repository
 
-https://github.com/edavis56/The-Better-Book-Barter
+https://github.com/edavis56/crazyGoodWeatherApp
 
 ## Contributing
 
