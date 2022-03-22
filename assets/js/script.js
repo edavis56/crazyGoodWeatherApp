@@ -1,35 +1,17 @@
-const timeEl = document.getElementById('time');
-const dateEl = document.getElementById('date');
+const date = new Date()
+const todayDate = date.toDateString()
+const time = date.toLocaleTimeString()
 const weekDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',]
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',]
-
+const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',]
 const inputValue = document.querySelector('.inputValue');
 const button = document.getElementById('button');
 const apiCall ='8da85a6d0e1088800fd5735017425db3'
-
-setInterval(() => {
-    const time = new Date();
-    const month = time.getMonth();
-    const date = time.getDate();
-    const day = time.getDay();
-    const hour = time.getHours();
-    const standardFormat =  hour >= 13 ? hour %12: hour
-    const minutes = time.getMinutes();
-    const ampm = hour >=12  ? 'PM' : 'AM'
-
-    timeEl.innerHTML = standardFormat + ':' + minutes + ' ' + `<span id="am-pm">${ampm}</span>`
-    dateEl.innerHTML = weekDay[day]+', '+date+' '+months[month]
-    
-}, 1000);
 
 
 button.addEventListener("click", function(){
     fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputValue.value+'&appid='+apiCall)
     .then(response => response.json())
     .then(data => {
-        console.log(data.coord.lat)
-        console.log(data.coord.lon)
-
         var lat = data.coord.lat;
         var lon = data.coord.lon;
 
@@ -37,169 +19,103 @@ button.addEventListener("click", function(){
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            showDayZero(data)
-            showDayOne(data)
-            showDayTwo(data)
-            showDayThree(data)
-            showDayFour(data)
-            showDayFive(data)
+            currentDay(data)
+            firstDay(data)
+            secondDay(data)
+            thirdDay(data)
+            fourthDay(data)
+            fifthDay(data)
         })
     })
-
-.catch(err => alert("wrong city!"))
 });
 
-
-function showDayZero (data){
+function currentDay (data){
     let {temp, humidity, wind_speed, uvi} = data.current;
-
-    dayZero.innerHTML = 
-    `<div>
-        <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png"
-    </div>
-    <div class="weather-item">
-        <div>Temperature:</div>
-        <div>${temp}&#176</div>
-    </div>
-    <div class="weather-item">
-        <div>Humidity:</div>
-        <div>${humidity} %</div>
-    </div>
-    <div class="weather-item">
-        <div>Wind:</div>
-        <div>${wind_speed} MPH</div>
-    </div>
-    <div class="weather-item">
-        <div>UV Index:</div>
-        <div>${uvi}</div>
+    today.innerHTML = 
+    `<header>
+        <h5 id="todayDate" class="card-title">Local Time: ${todayDate} ${time}</h5>
+    </header>
+    <div class="card" style="width: 18rem;">
+         <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Temperature: ${temp}&#176</h5>
+            <h5 class="card-title">Humidity: ${humidity} %</h5>
+            <h5 class="card-title">Wind: ${wind_speed} MPH</h5>
+            <h5 class="card-title">UV Index: ${uvi}</h5>
+        </div>
     </div>`;
 }
 
-function showDayOne (data) {
+function firstDay (data) {
     var {temp, humidity, wind_speed, uvi} = data.daily[0];
-
-    dayOne.innerHTML = 
-    `<div>
-        <img src="http://openweathermap.org/img/wn/${data.daily[0].weather[0].icon}@2x.png"
-    </div>
-    <div class="weather-item">
-        <div>Temperature:</div>
-        <div>${temp.day}&#176</div>
-    </div>
-    <div class="weather-item">
-        <div>Humidity:</div>
-        <div>${humidity} %</div>
-    </div>
-    <div class="weather-item">
-        <div>Wind:</div>
-        <div>${wind_speed} MPH</div>
-    </div>
-    <div class="weather-item">
-        <div>UV Index:</div>
-        <div>${uvi}</div>
-    </div>`;  
+    day1.innerHTML = 
+    `<div class="card" style="width: 12rem;">
+         <img src="http://openweathermap.org/img/wn/${data.daily[0].weather[0].icon}@2x.png" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Temperature: ${temp.day}&#176</h5>
+            <h5 class="card-title">Humidity: ${humidity} %</h5>
+            <h5 class="card-title">Wind: ${wind_speed} MPH</h5>
+            <h5 class="card-title">UV Index: ${uvi}</h5>
+        </div>
+    </div>` 
 }
 
-function showDayTwo (data) {
+function secondDay (data) {
     var {temp, humidity, wind_speed, uvi} = data.daily[1];
 
-    dayTwo.innerHTML = 
-    `<div>
-        <img src="http://openweathermap.org/img/wn/${data.daily[1].weather[0].icon}@2x.png"
-    </div>
-    <div class="weather-item">
-        <div>Temperature:</div>
-        <div>${temp.day}&#176</div>
-    </div>
-    <div class="weather-item">
-        <div>Humidity:</div>
-        <div>${humidity} %</div>
-    </div>
-    <div class="weather-item">
-        <div>Wind:</div>
-        <div>${wind_speed} MPH</div>
-    </div>
-    <div class="weather-item">
-        <div>UV Index:</div>
-        <div>${uvi}</div>
-    </div>`;  
-    var {temp, humidity, wind_speed, uvi} = data.daily[1];
-}
+    day2.innerHTML = 
+    `<div class="card" style="width: 12rem;">
+         <img src="http://openweathermap.org/img/wn/${data.daily[1].weather[0].icon}@2x.png" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Temperature: ${temp.day}&#176</h5>
+            <h5 class="card-title">Humidity: ${humidity} %</h5>
+            <h5 class="card-title">Wind: ${wind_speed} MPH</h5>
+            <h5 class="card-title">UV Index: ${uvi}</h5>
+        </div>
+    </div>` 
+   }
 
-function showDayThree (data) {
+function thirdDay (data) {
     var {temp, humidity, wind_speed, uvi} = data.daily[2];
 
-    dayThree.innerHTML = 
-    `<div>
-        <img src="http://openweathermap.org/img/wn/${data.daily[2].weather[0].icon}@2x.png"
-    </div>
-    <div class="weather-item">
-        <div>Temperature:</div>
-        <div>${temp.day}&#176</div>
-    </div>
-    <div class="weather-item">
-        <div>Humidity:</div>
-        <div>${humidity} %</div>
-    </div>
-    <div class="weather-item">
-        <div>Wind:</div>
-        <div>${wind_speed} MPH</div>
-    </div>
-    <div class="weather-item">
-        <div>UV Index:</div>
-        <div>${uvi}</div>
-    </div>`;  
-    var {temp, humidity, wind_speed, uvi} = data.daily[1];
-}
+    day3.innerHTML = 
+    `<div class="card" style="width: 12rem;">
+         <img src="http://openweathermap.org/img/wn/${data.daily[2].weather[0].icon}@2x.png" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Temperature: ${temp.day}&#176</h5>
+            <h5 class="card-title">Humidity: ${humidity} %</h5>
+            <h5 class="card-title">Wind: ${wind_speed} MPH</h5>
+            <h5 class="card-title">UV Index: ${uvi}</h5>
+        </div>
+    </div>`
+    }
 
-function showDayFour (data) {
+function fourthDay (data) {
     var {temp, humidity, wind_speed, uvi} = data.daily[3];
 
-    dayFour.innerHTML = 
-    `<div>
-        <img src="http://openweathermap.org/img/wn/${data.daily[3].weather[0].icon}@2x.png"
-    </div>
-    <div class="weather-item">
-        <div>Temperature:</div>
-        <div>${temp.day}&#176</div>
-    </div>
-    <div class="weather-item">
-        <div>Humidity:</div>
-        <div>${humidity} %</div>
-    </div>
-    <div class="weather-item">
-        <div>Wind:</div>
-        <div>${wind_speed} MPH</div>
-    </div>
-    <div class="weather-item">
-        <div>UV Index:</div>
-        <div>${uvi}</div>
-    </div>`;  
-    var {temp, humidity, wind_speed, uvi} = data.daily[1];
-}
+    day4.innerHTML = 
+    `<div class="card" style="width: 12rem;">
+         <img src="http://openweathermap.org/img/wn/${data.daily[3].weather[0].icon}@2x.png"class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Temperature: ${temp.day}&#176</h5>
+            <h5 class="card-title">Humidity: ${humidity} %</h5>
+            <h5 class="card-title">Wind: ${wind_speed} MPH</h5>
+            <h5 class="card-title">UV Index: ${uvi}</h5>
+        </div>
+    </div>`
+   }
 
-function showDayFive (data) {
+function fifthDay (data) {
     var {temp, humidity, wind_speed, uvi} = data.daily[4];
 
-    dayFive.innerHTML = 
-    `<div>
-        <img src="http://openweathermap.org/img/wn/${data.daily[4].weather[0].icon}@2x.png"
-    </div>
-    <div class="weather-item">
-        <div>Temperature:</div>
-        <div>${temp.day}&#176</div>
-    </div>
-    <div class="weather-item">
-        <div>Humidity:</div>
-        <div>${humidity} %</div>
-    </div>
-    <div class="weather-item">
-        <div>Wind:</div>
-        <div>${wind_speed} MPH</div>
-    </div>
-    <div class="weather-item">
-        <div>UV Index:</div>
-        <div>${uvi}</div>
-    </div>`;  
-    var {temp, humidity, wind_speed, uvi} = data.daily[1];
+    day5.innerHTML = 
+    `<div class="card" style="width: 12rem;">
+         <img src="http://openweathermap.org/img/wn/${data.daily[4].weather[0].icon}@2x.png"class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Temperature: ${temp.day}&#176</h5>
+            <h5 class="card-title">Humidity: ${humidity} %</h5>
+            <h5 class="card-title">Wind: ${wind_speed} MPH</h5>
+            <h5 class="card-title">UV Index: ${uvi}</h5>
+        </div>
+    </div>`
 }
